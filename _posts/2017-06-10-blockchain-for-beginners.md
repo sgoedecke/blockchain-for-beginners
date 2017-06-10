@@ -1,3 +1,9 @@
+---
+layout: post
+title:  "Blockchain for beginners"
+permalink:   /blockchain/
+---
+
 # Blockchains for beginners
 
 
