@@ -25,6 +25,8 @@ Like a torrent client, our blockchain app will rely on hashes to verify that you
 
 To solve this, blockchains rely on a data structure called a _hash list_ (sometimes called a Merkle list). It's a way to hash parts of the ledger and the whole thing at the same time. A hash list is a list where each element contains its content, a pointer to the previous element - like a regular linked list - and a hash of that previous element. If we both have a copy of the same hash list, and you add an element on the end, I can verify that you haven't altered any of the existing elements by re-hashing the existing elements and checking the hash (stored on the next element). Once I'm satisfied that you haven't tampered with history, I'll accept your new element. Since each element contains the hash of the previous element, which then goes into the hash stored in the following element, you can't tamper with the order of elements either.
 
+![Hash list](./hash_list.svg)
+
 In our blockchain app, our ledger will be stored as a hash list. Each element in the hash list is called a _block_. (This is where "blockchain" comes from: it's a chain of blocks.) Every time we accept or generate a new block, our blockchain app will send the latest version of the ledger to all its peers on the P2P network. When they verify the hashes in the chain, they'll add the block or blocks they were missing. Changes to the ledger will thus propagate over the network, without anybody being able to change the past.
 
 
@@ -56,6 +58,10 @@ Third, we declare a strategy for handling out-of-sync ledgers: accept the longer
 
 ## Why Bitcoin works
 
-We can now see how Bitcoin can maintain a tamper-proof record of all Bitcoin transactions (and thus how many BTC everyone has at the moment). Each transaction gets broadcasted, picked up by a miner and bundled up into a block with a very special hash attached. Until your transaction gets bundled, it hasn't "gone through", and even after it becomes a block it might still get overwritten. However, once your transaction's block gets picked up by a bunch of Bitcoin users, and has a stack of blocks on top of it in the blockchain, it's there forever. Nobody can alter it, and thus alter your Bitcoin balance, without invalidating the hashes. That would be obvious evidence of tampering, which would make their copy of the ledger - the blockchain - obviously invalid. It wouldn't be picked up by other Bitcoin users, and wouldn't get mined blocks placed on top of it, and thus wouldn't last long at all.
+We can now see how Bitcoin can maintain a tamper-proof record of all Bitcoin transactions (and thus how many BTC everyone has at the moment). Each transaction gets broadcasted, picked up by a miner and bundled up into a block with a very special hash attached.
+
+![Bitcoin blockchain](./bitcoin_blockchain.svg)
+
+Until your transaction gets bundled, it hasn't "gone through", and even after it becomes a block it might still get overwritten. However, once your transaction's block gets picked up by a bunch of Bitcoin users, and has a stack of blocks on top of it in the blockchain, it's there forever. Nobody can alter it, and thus alter your Bitcoin balance, without invalidating the hashes. That would be obvious evidence of tampering, which would make their copy of the ledger - the blockchain - obviously invalid. It wouldn't be picked up by other Bitcoin users, and wouldn't get mined blocks placed on top of it, and thus wouldn't last long at all.
 
 Miners are heavily incentivized to only place blocks on valid ledgers. Placing a block on an invalid ledger would be a waste of all the computing time they spent generating proof of work, since the block they generated would only be usable on that invalid chain. Bitcoin proponents think that this automatic anti-fraud system makes Bitcoin at least as reliable as traditional government-backed currencies (which combat fraud and forgery via the legal system). In any case, it's very cool.
