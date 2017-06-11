@@ -1,29 +1,13 @@
-# This is a Blockchain example app.
+# This is a Blockchain example app, written in Ruby
+
 require 'digest/md5'
 require 'json'
-
-class BlockChain
-  def initialize
-    @blocks = []
-  end
-
-  def blocks
-    @blocks
-  end
-
-  def add_block(block)
-    target_hash = @blocks.last&.to_hash || 'genesis'
-    if block.hash == target_hash
-      @blocks << block
-    end
-  end
-end
 
 class Block
   def initialize(value, blockchain)
     @content = {
       value: value,
-      hash_of_previous_block: blockchain.blocks.last&.to_hash || 'genesis'
+      hash_of_previous_block: blockchain.blocks.last.to_hash
     }
   end
 
@@ -41,6 +25,33 @@ class Block
 
   def to_hash
     Digest::MD5.hexdigest(@content.to_s)
+  end
+end
+
+class GenesisBlock < Block
+  def initialize
+    @content = { value: '', hash_of_previous_block: '' }
+  end
+
+  def to_hash
+    'genesis'
+  end
+end
+
+class BlockChain
+  def initialize
+    @blocks = [GenesisBlock.new]
+  end
+
+  def blocks
+    @blocks
+  end
+
+  def add_block(block)
+    target_hash = @blocks.last.to_hash
+    if block.hash == target_hash
+      @blocks << block
+    end
   end
 end
 
@@ -64,12 +75,10 @@ class Client
   end
 
   def send_message
-    # put your P2P logic here!
     # P2PClient.send(serialize(@blockchain))
   end
 
   def receive_message(message)
-    # more P2P logic!
     # encounter_new_chain(deserialize(message['blockchain'])
   end
 
