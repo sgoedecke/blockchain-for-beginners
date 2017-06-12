@@ -71,6 +71,10 @@ We can now see how Bitcoin can maintain a tamper-proof record of all Bitcoin tra
 Until your transaction gets bundled, it hasn't "gone through", and even after it becomes a block it might still get overwritten. However, once your transaction's block gets picked up by a bunch of Bitcoin users, and has a stack of blocks on top of it in the blockchain, it's there forever. Nobody can alter it, and thus alter your Bitcoin balance, without invalidating the hashes. That would be obvious evidence of tampering, which would make their copy of the ledger - the blockchain - obviously invalid. It wouldn't be picked up by other Bitcoin users, and wouldn't get mined blocks placed on top of it, and thus wouldn't last long at all.
 
 Miners are heavily incentivized to only place blocks on valid ledgers. Placing a block on an invalid ledger would be a waste of all the computing time they spent generating proof of work, since the block they generated would only be usable on that invalid chain. Bitcoin proponents think that this automatic anti-fraud system makes Bitcoin at least as reliable as traditional government-backed currencies (which combat fraud and forgery via the legal system). In any case, it's very cool.
+
+## Demo
+
+If you want a working javascript demo of a completely minimal blockchain (no proof-of-work, one write per block), I've written one [here](https://sgoedecke.github.io/blockchain-js-demo/). Sharing your blockchain with other nodes is left as an exercise for the reader: I provide a serialized version, which you can send to people via email/Facebook/carrier pigeon.
 </xmp>
 
 <script src="./strapdown/strapdown.js"></script>
